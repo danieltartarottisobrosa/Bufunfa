@@ -7,14 +7,16 @@
 {<body}
 
 	{#groups}
-		<h4>{name} {total}</h4>
-		<ul>
-			{#entries}
-				<li>{raw}</li>
-			{:else}
-				<i>-&nbsp;Vazio&nbsp;-</i>
-			{/entries}
-		</ul>
+		<div class="col-md-4">
+			<h4>{name} <span class="pull-right">{total}</span></h4>
+			<ul class="list-group">
+				{#entries}
+					<li class="list-group-item">{description} {value}<br></li>
+				{:else}
+					-&nbsp;Vazio&nbsp;-<br>
+				{/entries}
+			</ul>
+		</div>
 	{/groups}
 	
 {/body}

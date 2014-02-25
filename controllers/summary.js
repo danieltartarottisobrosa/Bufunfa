@@ -11,8 +11,22 @@ module.exports = function ( app ) {
 			groups: []
 		};
 		
+		function calcSum( sum, value ) {
+			return sum + value;
+		}
+		
 		function requestEnd() {
-			res.render( 'summary', model );
+			Entry.find().where( 'group' ).equals( null ).exec( function( err, entries ) {
+				var onlyValues = _.pluck( entries, 'value' );
+				
+				model.groups.push({
+					name: 'Sem grupo',
+					entries: entries,
+					total: _.reduce( onlyValues, calcSum )
+				});
+				
+				res.render( 'summary', model );
+			});
 		}
 		
 		function groupEntriesReceived( group, i, len ) {
@@ -20,9 +34,7 @@ module.exports = function ( app ) {
 				var onlyValues = _.pluck( entries, 'value' );
 				group.entries = entries;
 				
-				group.total = _.reduce( onlyValues, function( sum, value ) {
-					return sum + value;
-				});
+				group.total = _.reduce( onlyValues, calcSum );
 				
 				// Finaliza o request
 				if ( i === len - 1 ) {
@@ -31,7 +43,7 @@ module.exports = function ( app ) {
 			};
 		}
 		
-		Group.find( {}, function( err, groups ) {
+		Group.find().sort( 'name' ).exec( function( err, groups ) {
 			var i = 0,
 				len = groups.length;
 			

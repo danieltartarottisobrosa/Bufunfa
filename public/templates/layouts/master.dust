@@ -20,7 +20,7 @@
 	{+headScripts /}
 </head>
 <body onload="{+bodyOnLoad /}">
-	<nav class="navbar navbar-default" role="navigation">
+	<nav id="app-header" class="navbar navbar-default" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-items">
