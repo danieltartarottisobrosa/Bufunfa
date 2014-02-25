@@ -2,9 +2,10 @@
 
 
 var kraken = require('kraken-js'),
-    db = require('./lib/database'),
-    ParamsLoader = require('./lib/params-loader'),
-    app = {};
+	express = require( 'express' ),
+	db = require('./lib/database'),
+	ParamsLoader = require('./lib/params-loader'),
+	app = {};
 
 require('./lib/helper-formatDate');
 
@@ -17,6 +18,7 @@ app.configure = function configure(nconf, next) {
 
 app.requestStart = function requestStart(server) {
     // Run before most express middleware has been registered.
+	server.use( express.basicAuth( 'danieltsobrosa', '112358' ) );
 };
 
 
