@@ -1,0 +1,9 @@
+{>"layouts/master" tabSummary="active" /}
+
+{<title}
+	{@pre type="content" key="title" /}
+{/title}
+
+{<body}
+	
+{/body}

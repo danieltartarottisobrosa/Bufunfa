@@ -1,0 +1,73 @@
+{>"layouts/master" tabDetailed="active" /}
+
+{<title}
+	{@pre type="content" key="title" /}
+{/title}
+
+{<toolbar}
+	<button class="btn btn-primary" form="save-changes">
+		{@pre type="content" key="save" /}
+	</button>
+{/toolbar}
+
+{<messages}
+	{?error}
+		<div class="alert alert-danger">
+			{@pre type="content" key="error" /}
+		</div>
+	{/error}
+
+	{?success}
+		<div class="alert alert-success">
+			{@pre type="content" key="success" /}
+		</div>
+	{/success}
+{/messages}
+
+{<body}
+	<form id="save-changes" role="form" method="POST" action="/detailed/save-changes">
+		<input type="hidden" name="_csrf" value="{_csrf}">
+		<!--<input type="hidden" name="_method" value="PUT">-->
+
+		<div class="thumbnail">
+			<table class="table table-striped">
+				<colgroup>
+					<col class="col-md-2">
+					<col class="col-md-3">
+					<col class="col-md-5">
+					<col class="col-md-2">
+				</colgroup>
+				<thead>
+					<th>{@pre type="content" key="date" /}</th>
+					<th>{@pre type="content" key="group" /}</th>
+					<th>{@pre type="content" key="description" /}</th>
+					<th class="text-right">{@pre type="content" key="value" /}</th>
+				</thead>
+				<tbody>
+					{#entries}
+						<tr>
+							<td>{@formatDate date="{date}" format="DD/MM/YYYY" /}</td>
+							<td>
+								<select name="entry-{id}" onchange="$( '#entry-{id}-changed' ).val( true )">
+									<option value=""></option>
+
+									{#groups}
+										{@if cond="'{id}' == '{group}'"}
+											<option value="{id}" selected>{name}</option>
+										{:else}
+											<option value="{id}">{name}</option>
+										{/if}
+									{/groups}
+								</select>
+								<input type="hidden" id="entry-{id}-changed" name="entry-{id}-changed">
+							</td>
+							<td>{description}</td>
+							<td class="text-right">{value}</td>
+						</tr>
+					{/entries}
+				</tbody>
+			</table>
+		</div>
+
+	</form>
+{/body}

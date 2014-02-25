@@ -1,0 +1,49 @@
+{>"layouts/master" tabGroups="active" /}
+
+{<title}
+	{@pre type="content" key="title" /}
+{/title}
+
+{<toolbar}
+	<button class="btn btn-primary">
+		{@pre type="content" key="add-group" /}
+	</button>
+{/toolbar}
+
+{<body}
+	{#groups}
+	<form class="frame col-lg-3 col-md-4 col-sm-6">
+		<div class="thumbnail">
+			<table class="table">
+				<caption>
+					<span class="table-title">{name}<span>
+					<div class="btn-group pull-right" style="opacity: .8">
+						<button class="btn btn-danger btn-rounded btn-sm" onclick="confirm('Confirma a exclusão deste grupo?')">
+							<i class="glyphicon glyphicon-remove"></i>
+						</button>
+						<button class="btn btn-primary btn-rounded btn-sm" onclick="prompt('Informe o novo padrão:')">
+							<i class="glyphicon glyphicon-plus"></i>
+						</button>
+					</div>
+				</caption>
+				<colgroup>
+					<col class="col-md-12">
+				</colgroup>
+				<tbody>
+					{#patterns}
+					<tr>
+						<td>
+							{.} <button type="button" class="close" aria-hidden="true" onclick="confirm('Confirma a exclusão deste padrão?')">&times;</button>
+						</td>
+					</tr>
+					{:else}
+					<tr>
+						<td><center><i class="text-muted">{@pre type="content" key="empty-list" /}</i></center></td>
+					</tr>
+					{/patterns}
+				</tbody>
+			</table>
+		</div>
+	</form>
+	{/groups}
+{/body}

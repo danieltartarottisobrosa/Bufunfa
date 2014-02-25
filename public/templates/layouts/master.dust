@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=0.75">
+    {+metadata /}
+
+    <title>{@pre type="content" key="project-name" /} - {+title /}</title>
+
+    <link rel="icon" type="img/ico" href="/favicon.ico">
+	<link rel="stylesheet" href="/components/normalize-css/normalize.css" />
+	<link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/app.css" />
+	{+links /}
+
+
+	<script src="/components/jquery/jquery.js"></script>
+	<script src="/components/jquery-cookie/jquery.cookie.js"></script>
+	<script src="/components/bootstrap/dist/js/bootstrap.js"></script>
+	{+headScripts /}
+</head>
+<body onload="{+bodyOnLoad /}">
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-items">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">
+					{@pre type="content" key="project-name" /}
+					<img src="/images/logo.png" class="logo"/>
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="main-items">
+				<ul class="nav navbar-nav">
+					<li class="{tabSummary}"><a href="/summary">{@pre type="content" key="summary"/}</a></li>
+					<li class="{tabDetailed}"><a href="/detailed">{@pre type="content" key="detailed"/}</a></li>
+					<li class="{tabGroups}"><a href="/groups">{@pre type="content" key="groups"/}</a></li>
+					<li class="{tabImport}"><a href="/import">{@pre type="content" key="import"/}</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container content">
+		{+messages /}
+
+		{^hideTitle}
+			<h3 class="title">{+title /}</h3>
+		{/hideTitle}
+
+		<div class="text-right">
+			{+toolbar /}
+		</div>
+		
+		<br>
+		
+		<div>
+			{+body /}
+		</div>
+	</div>
+
+	{+scripts /}
+</body>
+</html>
