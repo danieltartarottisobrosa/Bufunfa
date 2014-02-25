@@ -5,5 +5,16 @@
 {/title}
 
 {<body}
+
+	{#groups}
+		<h4>{name} {total}</h4>
+		<ul>
+			{#entries}
+				<li>{raw}</li>
+			{:else}
+				<i>-&nbsp;Vazio&nbsp;-</i>
+			{/entries}
+		</ul>
+	{/groups}
 	
 {/body}

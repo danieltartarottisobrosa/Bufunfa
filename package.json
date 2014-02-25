@@ -22,7 +22,8 @@
     "makara": "~0.3.0",
     "mongoose": "~3.8.6",
     "MD5": "~1.2.0",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "mocha": "~1.10.0",
