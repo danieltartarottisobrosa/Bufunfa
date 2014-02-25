@@ -2,14 +2,16 @@
 
 var Entry = require( '../models/entry' ),
 	Group = require( '../models/group' ),
-	_ = require( 'lodash');
+	_ = require( 'lodash'),
+	ModelUtil = require( '../util/model-util' ),
+	DateUtil = require( '../util/date-util' ),
+	FilterUtil = require( '../util/filter-util' );
 
 module.exports = function ( app ) {
 
 	app.get( '/summary', function ( req, res ) {
-		var model = {
-			groups: []
-		};
+		var model = ModelUtil.createModel( req, res );
+		model.groups = [];
 		
 		function calcSum( sum, value ) {
 			return sum + value;
@@ -48,10 +50,25 @@ module.exports = function ( app ) {
 				len = groups.length;
 			
 			for ( ; i < len; i++ ) {
-				var group = groups[ i ];
+				var group = groups[ i ],
+					periodFilter = FilterUtil.getFilter( req, 'period' );
+				
 				model.groups.push( group );
 				
-				Entry.find( { group: group.id }, groupEntriesReceived( group, i, len ) );
+				if ( !periodFilter.from ) {
+					periodFilter.from = DateUtil.month.firstDate.toString();
+				}
+				
+				if ( !periodFilter.to ) {
+					periodFilter.to = DateUtil.month.lastDate.toString();
+				}
+				
+				// Monta a query das entries
+				var query = Entry.find( { group: group.id } )
+						.where( 'date' ).gte( DateUtil.stringToDate( periodFilter.from ).toFirstMoment() )
+						.where( 'date' ).lte( DateUtil.stringToDate( periodFilter.to ).toLastMoment() );
+				
+				query.exec( groupEntriesReceived( group, i, len ) );
 			}
 		});
 	});

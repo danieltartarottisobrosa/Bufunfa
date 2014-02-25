@@ -51,8 +51,14 @@
 			<h3 class="title">{+title /}</h3>
 		{/hideTitle}
 
-		<div class="text-right">
-			{+toolbar /}
+		<div class="row">
+			<div class="col-md-6">
+				{+filters /}
+			</div>
+	
+			<div class="col-md-6 text-right">
+				{+toolbar /}
+			</div>
 		</div>
 		
 		<br>

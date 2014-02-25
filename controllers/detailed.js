@@ -1,14 +1,29 @@
 'use strict';
 
 var Entry = require( '../models/entry' ),
-	Group = require( '../models/group' );
+	Group = require( '../models/group' ),
+	ModelUtil = require( '../util/model-util' ),
+	DateUtil = require( '../util/date-util' ),
+	FilterUtil = require( '../util/filter-util' );
 
 module.exports = function ( app ) {
 
 	function redirectDetailed( req, res, model ) {
 		var entriesQuery = Entry.find().sort({ 'date': -1 }),
-			groupsQuery = Group.find().sort( 'name' );
+			groupsQuery = Group.find().sort( 'name' ),
+			periodFilter = FilterUtil.getFilter( req, 'period' );
 
+		if ( !periodFilter.from ) {
+			periodFilter.from = DateUtil.month.firstDate.toString();
+		}
+		
+		if ( !periodFilter.to ) {
+			periodFilter.to = DateUtil.month.lastDate.toString();
+		}
+		
+		entriesQuery = entriesQuery.where( 'date' ).gte( DateUtil.stringToDate( periodFilter.from ).toFirstMoment() );
+		entriesQuery = entriesQuery.where( 'date' ).lte( DateUtil.stringToDate( periodFilter.to ).toLastMoment() );
+		
 		entriesQuery.exec( function( err, entries ) {
 			groupsQuery.exec( function( err, groups ) {
 				model.entries = entries;
@@ -19,7 +34,7 @@ module.exports = function ( app ) {
 	}
 
 	app.get( '/detailed', function ( req, res ) {
-		redirectDetailed( req, res, {} );
+		redirectDetailed( req, res, ModelUtil.createModel( req, res ) );
 	});
 
 	app.post( '/detailed/save-changes', function ( req, res ) {
@@ -28,7 +43,9 @@ module.exports = function ( app ) {
 
 		function doYouCanRedirect() {
 			if ( readyCount === entriesCount ) {
-				redirectDetailed( req, res, { success: true });
+				var model = ModelUtil.createModel( req, res );
+				model.success = true;
+				redirectDetailed( req, res, model);
 			}
 		}
 
@@ -90,7 +107,9 @@ module.exports = function ( app ) {
 			processData();
 
 		} catch ( catchErr ) {
-			redirectDetailed( req, res, { error: true });
+			var model = ModelUtil.createModel( req, res );
+			model.error = true;
+			redirectDetailed( req, res, model );
 		}
 	});
 };

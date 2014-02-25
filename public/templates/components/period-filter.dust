@@ -1,0 +1,12 @@
+
+<form id="filter-form" action="/filters/period/set" method="POST">
+	<input type="hidden" name="_csrf" value="{_csrf}">
+	<input type="hidden" name="redirectTo" value="{redirectTo}">
+	
+	{@pre type="content" key="from" /}&nbsp;<input type="date" name="from" value="{session.filters.period.from}">&nbsp;{@pre type="content" key="to" /}&nbsp;<input type="date" name="to" value="{session.filters.period.to}">&nbsp;
+	
+	<button type="submit" class="button">
+		{@pre type="content" key="filter" /}
+	</button>
+	
+</form>

@@ -8,6 +8,7 @@ var kraken = require('kraken-js'),
 	app = {};
 
 require('./lib/helper-formatDate');
+require('./util/date-util').init();
 
 app.configure = function configure(nconf, next) {
     // Async method run on startup.

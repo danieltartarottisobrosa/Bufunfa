@@ -4,6 +4,10 @@
 	{@pre type="content" key="title" /}
 {/title}
 
+{<filters}
+	{>"components/period-filter" redirectTo="/detailed" /}
+{/filters}
+
 {<toolbar}
 	<button class="btn btn-primary" form="save-changes">
 		{@pre type="content" key="save" /}
