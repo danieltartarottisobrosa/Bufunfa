@@ -5,7 +5,7 @@
 {/title}
 
 {<toolbar}
-	<button class="btn btn-primary">
+	<button class="btn btn-primary" id="add-group">
 		{@pre type="content" key="add-group" /}
 	</button>
 {/toolbar}
@@ -18,10 +18,10 @@
 				<caption>
 					<span class="table-title">{name}<span>
 					<div class="btn-group pull-right" style="opacity: .8">
-						<button class="btn btn-danger btn-rounded btn-sm" onclick="confirm('Confirma a exclusão deste grupo?')">
+						<button class="btn btn-danger btn-rounded btn-sm remove-group">
 							<i class="glyphicon glyphicon-remove"></i>
 						</button>
-						<button class="btn btn-primary btn-rounded btn-sm" onclick="prompt('Informe o novo padrão:')">
+						<button class="btn btn-primary btn-rounded btn-sm add-pattern">
 							<i class="glyphicon glyphicon-plus"></i>
 						</button>
 					</div>
@@ -33,7 +33,8 @@
 					{#patterns}
 					<tr>
 						<td>
-							{.} <button type="button" class="close" aria-hidden="true" onclick="confirm('Confirma a exclusão deste padrão?')">&times;</button>
+							{.}
+							<button type="button" class="close remove-pattern" aria-hidden="true" data-pattern="{@idx}{.}{/idx}" data-group="{id}">&times;</button>
 						</td>
 					</tr>
 					{:else}
@@ -46,4 +47,44 @@
 		</div>
 	</form>
 	{/groups}
+
+	<form id="remove-pattern-form" class="hidden" method="POST">
+		<input type="hidden" name="_method" value="DELETE">
+		<input type="hidden" name="_csrf" value="{_csrf}">
+	</form>
 {/body}
+
+{<scripts}
+	<script>
+		$(function() {
+
+			$( '#add-group' ).click( function() {
+				var groupName = prompt( '{@pre type="content" key="type-group" /}' );
+
+			});
+
+			$( '.remove-group' ).click( function() {
+				var answer = confirm( '{@pre type="content" key="remove-group" /}' );
+
+			});
+
+			$( '.add-pattern' ).click( function() {
+				var pattern = prompt( '{@pre type="content" key="type-pattern" /}' );
+
+			});
+
+			$( '.remove-pattern' ).click( function( event ) {
+				var pattern = $( this ).data().pattern,
+					group = $( this ).data().group,
+					answer = confirm( '{@pre type="content" key="remove-pattern" /}' ),
+					form = $( '#remove-pattern-form' );
+
+				if ( answer ) {
+					form.attr( 'action', '/groups/' + group + '/delete-pattern/' + pattern );
+					form.submit();
+				}
+			});
+
+		}());
+	</script>
+{/scripts}

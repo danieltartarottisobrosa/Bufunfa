@@ -13,4 +13,12 @@ module.exports = function ( app ) {
 		});
 	});
 
+	app['delete']( '/groups/:group/delete-pattern/:pattern', function( req, res ) {
+		var group = req.group,
+			pattern = parseInt( req.params.pattern, 10 );
+
+		group.patterns.splice( pattern, 1 );
+		res.redirect( '/groups' );
+	});
+
 };

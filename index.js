@@ -19,6 +19,7 @@ app.configure = function configure(nconf, next) {
 
 app.requestStart = function requestStart(server) {
     // Run before most express middleware has been registered.
+    server.use(express.methodOverride());
 	server.use( express.basicAuth( 'danieltsobrosa', '112358' ) );
 };
 
